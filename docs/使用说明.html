@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>c-drive-cleanup · 使用说明</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 01 封面 -->
+<section class="page cover">
+  <div class="brand">
+    <img class="mark" src="assets/yunque-mark.png" alt="云雀">
+    <img class="wordmark" src="assets/lark-wordmark-light.svg" alt="CloudLark">
+  </div>
+  <div class="kicker">C-DRIVE-CLEANUP / LARK EDITION</div>
+  <h1>把 C 盘<br><span>的账算清楚</span></h1>
+  <p class="lead">先只读扫描，看清每一块空间花在哪；再按 L1 / L2 / 需确认 三级处理。技能只负责算账和搬运，删什么永远等你点头。</p>
+  <div class="steps">
+    <div class="step"><span class="n">01</span><b>只读扫描</b></div>
+    <div class="step"><span class="n">02</span><b>分级报告</b></div>
+    <div class="step"><span class="n">03</span><b>按级处理</b></div>
+    <div class="step"><span class="n">04</span><b>目录联接</b></div>
+  </div>
+  <div class="footerline">技能说明书 · 站长自制<span>lark123.com · 2026.11.25</span></div>
+</section>
+
+<!-- 02 先看结论 -->
+<section class="page">
+  <div class="sec"><span class="num">00</span><h2>先看结论</h2></div>
+  <blockquote class="bigquote">清 C 盘最容易犯的错，是一上来就删。这个技能反过来：先花两分钟把账算清楚，再按风险分级逐项动手。</blockquote>
+
+  <div class="two">
+    <div class="card">
+      <div class="sub">它会自动完成</div>
+      <ul>
+        <li>只读扫描磁盘总量与 9 个分区占用</li>
+        <li>把缓存分成可清、可迁、需确认三级</li>
+        <li>L2 用目录联接搬走应用数据，原路径仍可用</li>
+        <li>每一步都给报告，等你确认再动手</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="sub">最终交付</div>
+      <p class="mono">一份分区报告 + 可回滚的迁移</p>
+      <p class="small">扫描阶段不写入任何内容，结尾固定打印「未修改任何内容」。</p>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead><tr><th>这次测出来的问题</th><th>处理</th></tr></thead>
+    <tbody>
+      <tr><td>扫描脚本 UTF-8 无 BOM，PowerShell 5.1 下乱码报错</td><td>加 BOM 后 5.1 / 7 均可运行</td></tr>
+      <tr><td>迁移脚本无 dry-run</td><td>说明书标注为破坏性操作，先确认再跑</td></tr>
+      <tr><td>「大文件」只写在 SKILL.md，脚本未实现</td><td>说明书按实际能力写，由智能体另行查找</td></tr>
+    </tbody>
+  </table>
+
+  <div class="status">
+    <div><strong>4 / 4</strong><span>测试用例通过</span></div>
+    <div><strong>9</strong><span>扫描分区</span></div>
+    <div><strong>0</strong><span>外部依赖</span></div>
+  </div>
+
+  <div class="pagefooter"><span>c-drive-cleanup · 使用说明</span><span class="brandfoot"><img src="assets/yunque-mark.png" alt=""><span class="url">lark123.com</span></span><span>02 / 08</span></div>
+</section>
+
+<!-- 03 扫描输出 -->
+<section class="page">
+  <div class="sec"><span class="num">01</span><h2>扫描出来的样子</h2></div>
+  <p class="body">一条命令，九段报告：磁盘余量、系统缓存、浏览器缓存、应用缓存、用户目录、三处 Top 10、回收站。</p>
+  <figure class="figure">
+    <img src="../screenshots/01-scan.png" alt="只读扫描输出示例">
+    <figcaption>实跑输出：系统缓存小计 5.27 GB，浏览器缓存 Edge 0.65 GB / Chrome 0.87 GB；结尾一行「扫描完成(未修改任何内容)」。</figcaption>
+  </figure>
+  <div class="note">整个过程<strong>只读</strong>：不删除、不移动、不写入。扫描慢是正常的，它在逐个算目录大小。</div>
+  <div class="pagefooter"><span>c-drive-cleanup · 使用说明</span><span class="brandfoot"><img src="assets/yunque-mark.png" alt=""><span class="url">lark123.com</span></span><span>03 / 08</span></div>
+</section>
+
+<!-- 04 安装 -->
+<section class="page">
+  <div class="sec"><span class="num">02</span><h2>安装：三步</h2></div>
+  <p class="body">把整个 <span class="mono">c-drive-cleanup</span> 文件夹放进技能目录即可，<b>不要只复制 SKILL.md</b>。</p>
+
+  <div class="steps">
+    <div class="step-row"><span class="n">1</span><div><b>放目录</b>
+      <div class="code">&lt;技能目录&gt;\c-drive-cleanup\</div>
+      <p class="small">豆包是 .user_skills，其它智能体换成各自的 skills 目录。</p>
+    </div></div>
+    <div class="step-row"><span class="n">2</span><div><b>确认依赖</b>
+      <p class="small">Windows 自带的 PowerShell 5.1 或 PowerShell 7，<b>不需要安装任何东西</b>。</p>
+    </div></div>
+    <div class="step-row"><span class="n">3</span><div><b>先自检（只读）</b>
+      <div class="code">powershell -NoProfile -ExecutionPolicy Bypass -File 自检.ps1</div>
+    </div></div>
+  </div>
+
+  <div class="note">自检只跑扫描脚本并检查输出分区，不会动你的文件。</div>
+  <div class="pagefooter"><span>c-drive-cleanup · 使用说明</span><span class="brandfoot"><img src="assets/yunque-mark.png" alt=""><span class="url">lark123.com</span></span><span>04 / 08</span></div>
+</section>
+
+<!-- 05 分级 -->
+<section class="page">
+  <div class="sec"><span class="num">03</span><h2>三级风险</h2></div>
+  <figure class="figure">
+    <img src="../screenshots/02-tiers.png" alt="三级风险分级">
+    <figcaption>同一张报告，三种处理方式：能清的、能搬的、要你点头的。</figcaption>
+  </figure>
+  <p class="body" style="margin-top:6mm">报告里每一项都标了归属与体积：L1 的缓存删掉会自己重建；L2 的应用数据用目录联接搬走，原路径照样能打开；L3 只报告，不动手。</p>
+  <div class="note">别一天清三次：反复重建缓存的开销，通常比省下来的空间更烦人。</div>
+  <div class="pagefooter"><span>c-drive-cleanup · 使用说明</span><span class="brandfoot"><img src="assets/yunque-mark.png" alt=""><span class="url">lark123.com</span></span><span>05 / 08</span></div>
+</section>
+
+<!-- 06 用法 -->
+<section class="page">
+  <div class="sec"><span class="num">04</span><h2>两步用法</h2></div>
+
+  <p class="sub">第一步 · 只读扫描</p>
+  <div class="code">powershell -NoProfile -ExecutionPolicy Bypass -File scripts\c_scan.ps1</div>
+
+  <p class="sub">第二步 · 迁移某个应用（L2）</p>
+  <div class="code">powershell -NoProfile -ExecutionPolicy Bypass -File scripts\c_move_app.ps1 `
+  -Source "C:\Users\&lt;你&gt;\AppData\Local\某应用" -Target "D:\AppData\某应用"</div>
+  <p class="small">执行顺序：robocopy 复制 → 原目录改名 <span class="mono">_backup</span> → 建目录联接。原路径在新位置继续可用。</p>
+
+  <table class="table">
+    <thead><tr><th>脚本</th><th>参数</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">c_scan.ps1</td><td>无</td><td>只读扫描，不写任何东西</td></tr>
+      <tr><td class="mono">c_move_app.ps1</td><td class="mono">-Source / -Target</td><td>必填；源目录不存在直接报错退出</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">回滚：删掉目录联接，把 <span class="mono">_backup</span> 目录改回原名即可。</div>
+  <div class="pagefooter"><span>c-drive-cleanup · 使用说明</span><span class="brandfoot"><img src="assets/yunque-mark.png" alt=""><span class="url">lark123.com</span></span><span>06 / 08</span></div>
+</section>
+
+<!-- 07 能解决什么 -->
+<section class="page">
+  <div class="sec"><span class="num">05</span><h2>能解决什么问题</h2></div>
+  <p class="body">C 盘满了、系统更新装不下、软件数据全挤在 C 盘——先看清再动手，比盲目删目录安全得多。</p>
+
+  <div class="pipeline">
+    <div>只读扫描</div><div>分级报告</div><div>你确认</div><div>清理 / 迁移</div><div>复查余量</div>
+  </div>
+
+  <div class="two">
+    <div class="card good"><div class="sub">适合</div>
+      <ul>
+        <li>系统盘告急，想知道空间去哪了</li>
+        <li>把微信、QQ、剪映这类大应用挪到别的盘</li>
+        <li>清理前后做一次余量对比</li>
+        <li>给不熟电脑的人做一次体检</li>
+      </ul>
+    </div>
+    <div class="card no"><div class="sub">不适合</div>
+      <ul>
+        <li>macOS / Linux</li>
+        <li>企业环境里的集中清理（无审计日志）</li>
+        <li>没确认就批量删文件</li>
+        <li>系统分区调整（分区合并不在范围内）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pagefooter"><span>c-drive-cleanup · 使用说明</span><span class="brandfoot"><img src="assets/yunque-mark.png" alt=""><span class="url">lark123.com</span></span><span>07 / 08</span></div>
+</section>
+
+<!-- 08 迁移与排错 -->
+<section class="page">
+  <div class="sec"><span class="num">06</span><h2>迁移到别的智能体</h2></div>
+  <table class="table">
+    <thead><tr><th>目标</th><th>要改什么</th><th>难度</th></tr></thead>
+    <tbody>
+      <tr><td>Claude Code / Codex</td><td>脚本路径换成绝对路径，其余照旧</td><td>低</td></tr>
+      <tr><td>Cursor / 自研 Agent</td><td>让工具层执行 PowerShell 命令并读输出</td><td>低</td></tr>
+      <tr><td>Dify / Coze 等云端编排</td><td>不可用：必须在本地机器上跑</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="note">它不调用任何宿主专有接口，只依赖 Windows 自带的 PowerShell 与 robocopy。</div>
+
+  <div class="sec" style="margin-top:8mm"><span class="num">07</span><h2>常见问题</h2></div>
+  <div class="issue"><b>报语法错误、中文乱码？</b><p>拿到的是无 BOM 的旧版本，用发布包里的版本（已修复）。</p></div>
+  <div class="issue"><b>建 junction 失败？</b><p>需要管理员权限，用管理员终端再跑一次。</p></div>
+  <div class="issue"><b>迁移后应用打不开？</b><p>删掉目录联接，把 <span class="mono">_backup</span> 目录改回原名回滚。</p></div>
+
+  <div class="status">
+    <div><strong>v1.0.0</strong><span>打包版本</span></div>
+    <div><strong>2026.11.25</strong><span>发布时间</span></div>
+    <div><strong>自制</strong><span>版权与出处</span></div>
+  </div>
+  <div class="pagefooter"><span>c-drive-cleanup · 使用说明</span><span class="brandfoot"><img src="assets/yunque-mark.png" alt=""><span class="url">lark123.com</span></span><span>08 / 08</span></div>
+</section>
+
+</body>
+</html>
